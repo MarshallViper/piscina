@@ -42,7 +42,7 @@ async function getHandler (filename : string) : Promise<Function | null> {
   if (typeof handler !== 'function') {
     // With our current set of TypeScript options, this is transpiled to
     // `require(filename)`.
-    handler = await (await import(filename));
+    handler = await import(filename);
     if (typeof handler !== 'function') {
       handler = await (handler as any).default;
     }
