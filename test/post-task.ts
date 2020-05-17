@@ -80,3 +80,15 @@ test('Piscina emits drain', async ({ ok }) => {
 
   ok(drained);
 });
+
+test('Piscina can use async loaded workers', async ({ is }) => {
+  const pool = new Piscina();
+
+  const ret = await Promise.all([
+    pool.runTask('1', resolve(__dirname, 'fixtures/esm-async.mjs')),
+    pool.runTask('2', resolve(__dirname, 'fixtures/eval-async.js'))
+  ]);
+
+  is(ret[0], 1);
+  is(ret[1], 2);
+});
